@@ -1,10 +1,13 @@
-import React from 'react'
-import { Text, View } from 'react-native'
+import React from 'react';
+import { Text, View } from 'react-native';
+import Header from '../components/Header';
 
 const HomeScreen = () => {
   return (
-    <View><Text>Home</Text></View>
-  )
-}
+    <View>
+      <Header />
+    </View>
+  );
+};
 
-export default HomeScreen
+export default HomeScreen;

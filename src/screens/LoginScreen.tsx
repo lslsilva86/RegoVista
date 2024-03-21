@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, TextInput, Button, Text, StyleSheet } from 'react-native';
+import { View, TextInput, Button, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
@@ -8,6 +8,8 @@ import { LoginScreenNavigationProp } from '../types/NavigationTypes';
 import { UserCredentials } from '../types/AuthTypes';
 import { requestToken, validateToken, createSession } from '../api/authService';
 import { useAuth } from '../contexts/AuthContext';
+import { Colors } from '../utils/Colors';
+import globalStyles from '../utils/Styles';
 
 type Props = {
   navigation: LoginScreenNavigationProp;
@@ -18,12 +20,14 @@ const LoginSchema = Yup.object().shape({
   password: Yup.string().required('Password is required'),
 });
 
-const LoginScreen: React.FC<Props> = ({ navigation }) => {
+const LoginScreen: React.FC<Props> = ({}) => {
   const { login, setSessionId } = useAuth();
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Login</Text>
+      <View style={styles.image}>
+        <Image source={require('../../assets/logo.png')} />
+      </View>
       <Formik
         initialValues={{ username: '', password: '' }}
         validationSchema={LoginSchema}
@@ -61,27 +65,32 @@ const LoginScreen: React.FC<Props> = ({ navigation }) => {
         {({ handleChange, handleBlur, handleSubmit, values, errors, touched }) => (
           <View>
             <TextInput
-              style={styles.input}
+              style={globalStyles.textInput}
               placeholder="Username"
+              placeholderTextColor={Colors.text}
               onChangeText={handleChange('username')}
               onBlur={handleBlur('username')}
               value={values.username}
             />
             {touched.username && errors.username ? <Text style={styles.error}>{errors.username}</Text> : null}
             <TextInput
-              style={styles.input}
+              style={globalStyles.textInput}
               placeholder="Password"
               secureTextEntry
+              placeholderTextColor={Colors.text}
               onChangeText={handleChange('password')}
               onBlur={handleBlur('password')}
               value={values.password}
             />
             {touched.password && errors.password ? <Text style={styles.error}>{errors.password}</Text> : null}
-            <Button
-              onPress={() => handleSubmit()}
-              title="Log In"
-              color="#1f1f1f"
-            />
+
+            <TouchableOpacity style={globalStyles.button}>
+              <Button
+                onPress={() => handleSubmit()}
+                title="Log In"
+                color={Colors.text}
+              />
+            </TouchableOpacity>
           </View>
         )}
       </Formik>
@@ -93,24 +102,19 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'center',
+    padding: 30,
+    backgroundColor: Colors.primary,
   },
-  title: {
-    fontSize: 24,
-    marginBottom: 20,
-  },
-  input: {
-    width: '80%',
-    padding: 10,
-    marginBottom: 10,
-    borderWidth: 1,
-    borderColor: 'gray',
-    borderRadius: 5,
+  image: {
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    marginBottom: 30,
   },
   error: {
-    fontSize: 10,
-    color: 'red',
-    width: '80%',
+    marginBottom: 10,
+    fontSize: 12,
+    color: Colors.error,
+    textAlign: 'center',
   },
 });
 
