@@ -1,5 +1,7 @@
 # RegoVista
 
+![](./assets/logo.png 'Company Logo')
+
 RegoVista is an innovative app for movie lovers, enhancing film discovery and engagement. It features a user-friendly interface, focused on movie exploration, providing detailed insights, and personalized watchlists for a unique viewing experience.
 
 ## Key Features of RegoVista
@@ -24,22 +26,23 @@ To set up and run a React Native app with Expo from this GitHub repo, follow the
 1. Clone the repo: `git clone`.
 2. Install Expo CLI if not already installed: `npm install -g expo-cli`.
 3. Navigate to the project directory: `cd [project-directory]`.
-4. Install dependencies: `npm install`.
-5. Start the project: `expo start`.
+4. Create a .env.local file from .env.sample file and add an API Key of themoviedb (TMDB).
+5. Install dependencies: `npm install`.
+6. Start the project: `expo start` or `npm start`.
 
 ## Running on Simulators
 
 **iOS Simulator (MacOS Only):**
 
 - Ensure Xcode is installed.
-- From the terminal within your project directory, run `expo start`.
+- From the terminal within your project directory, run `expo start` or `npm start`.
 - Press `i` to launch the iOS Simulator.
 
 **Android Emulator:**
 
 - Ensure Android Studio is installed with AVD Manager configured.
 - Start the emulator from Android Studio.
-- From the project terminal, run `expo start`.
+- From the project terminal, run `expo start` or `npm start`.
 - Press `a` to launch the app in the Android Emulator.
 
 ## Running on Devices
@@ -47,19 +50,21 @@ To set up and run a React Native app with Expo from this GitHub repo, follow the
 **Expo Go App:**
 
 - Install the Expo Go app on your device from the App Store or Google Play.
-- Run `expo start` in your project directory.
+- Run `expo start` or `npm start` in your project directory.
 - Scan the QR code with Expo Go.
 
 **Directly on a Device (iOS):**
 
 - Connect your device via USB.
-- Open the terminal, run `expo start`.
+- Open the terminal, run `expo start` or `npm start`.
 - Press `i` to build and run on the connected device.
 
 **Directly on a Device (Android):**
 
 - Connect your device via USB with USB Debugging enabled.
-- Open the terminal, run `expo start`.
+- Open the terminal, run `expo start` or `npm start`.
 - Press `a` to build and run on the connected device.
 
 For detailed setup and troubleshooting, refer to Expo's official documentation.
+
+(Cmd+Shift+V/Clt+Shift+V - To view .md file VS Code)
