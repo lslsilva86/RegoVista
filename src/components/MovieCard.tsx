@@ -3,9 +3,8 @@ import React from 'react';
 import { Pressable, View, Text, StyleSheet, Image, ImageSourcePropType } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { FontAwesome } from '@expo/vector-icons';
-import ReadMoreButton from './ReadMoreButton';
-import RatingCircle from './RatingCircle';
 import { Colors } from '../utils/Colors';
+import { getYear } from '../utils/CommonFunctions';
 
 interface Movie {
   poster_path: ImageSourcePropType;
@@ -18,21 +17,14 @@ interface Movie {
 const MovieCard: React.FC<Movie> = ({ movie }) => {
   const navigation = useNavigation();
 
-  const getYear = (dateString: string) => {
-    const date = new Date(dateString);
-    if (isNaN(date.getTime())) {
-      return null;
-    }
-    return date.getFullYear();
-  };
-
   // if movie.poster_path is null assigning a placeholder image
   const imagePath = movie.poster_path
-    ? { uri: `${IMAGE_BASE_URL}/${movie.poster_path}` }
+    ? { uri: `${IMAGE_BASE_URL}${movie.poster_path}` }
     : require('../../assets/movie-placeholder2x.png');
+  console.log(imagePath);
 
   return (
-    <Pressable onPress={() => navigation.navigate('Movie Details')}>
+    <Pressable onPress={() => navigation.navigate('Movie Details', { movieId: movie.id })}>
       <View style={[styles.card, { marginVertical: 10, marginHorizontal: 20 }]}>
         <Image
           style={styles.image}

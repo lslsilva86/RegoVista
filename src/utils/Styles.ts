@@ -5,12 +5,12 @@ const globalStyles = StyleSheet.create({
   button: {
     margin: 10,
     padding: 8,
-    fontSize: 16,
-    borderWidth: 1,
-    borderColor: Colors.border,
+    fontSize: 20,
     borderRadius: 5,
-    color: Colors.text,
+    color: Colors.primary,
     fontWeight: 'bold',
+    backgroundColor: Colors.text,
+    textAlign: 'center',
   },
   textInput: {
     margin: 10,
@@ -19,7 +19,6 @@ const globalStyles = StyleSheet.create({
     fontSize: 18,
     borderWidth: 1,
     borderColor: Colors.border,
-    borderRadius: 5,
     color: Colors.text,
   },
   searchInput: {
@@ -28,7 +27,6 @@ const globalStyles = StyleSheet.create({
     fontSize: 18,
     borderWidth: 1,
     borderColor: Colors.dark,
-    borderRadius: 5,
     color: Colors.dark,
   },
   noResultsMsg: {
