@@ -21,7 +21,6 @@ const MovieCard: React.FC<Movie> = ({ movie }) => {
   const imagePath = movie.poster_path
     ? { uri: `${IMAGE_BASE_URL}${movie.poster_path}` }
     : require('../../assets/movie-placeholder2x.png');
-  console.log(imagePath);
 
   return (
     <Pressable onPress={() => navigation.navigate('Movie Details', { movieId: movie.id })}>
