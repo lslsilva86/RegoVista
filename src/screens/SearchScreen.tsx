@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { View, TextInput, StyleSheet, FlatList, ActivityIndicator, Text } from 'react-native';
-import axios from 'axios';
 import MovieCard from '../components/MovieCard'; // Adjust the import path as necessary
 import globalStyles from '../utils/Styles';
-import { getSearchedMovies } from '../api/movieService';
+import { getMoviesByQuery } from '../api/movieService';
 import { Colors } from '../utils/Colors';
+import { displayError } from '../utils/CommonFunctions';
 
 const SearchScreen = () => {
   const [query, setQuery] = useState('');
@@ -13,10 +13,10 @@ const SearchScreen = () => {
 
   const fetchMovies = async (query: string) => {
     try {
-      const response = await getSearchedMovies(query);
+      const response = await getMoviesByQuery(query);
       setMovies(response.results);
     } catch (error) {
-      console.error('Error fetching movies:', error);
+      displayError(error, 'Error fetching movies:');
     } finally {
       setIsLoading(false);
     }

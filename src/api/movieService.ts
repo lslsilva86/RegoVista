@@ -25,7 +25,7 @@ export const getTrendingMoviesThisWeek = async () => {
   }
 };
 
-export const getSearchedMovies = async (query: string) => {
+export const getMoviesByQuery = async (query: string) => {
   const options = {
     params: { query, include_adult: 'false', page: '1' },
   };
@@ -34,5 +34,14 @@ export const getSearchedMovies = async (query: string) => {
     return response.data;
   } catch (error) {
     displayError(error, 'Failed to fetch searched movies');
+  }
+};
+
+export const getDetailsByMovieId = async (id: string) => {
+  try {
+    const response = await axiosInstance.get(`/movie/${id}`);
+    return response.data;
+  } catch (error) {
+    displayError(error, 'Failed to fetch movie details');
   }
 };

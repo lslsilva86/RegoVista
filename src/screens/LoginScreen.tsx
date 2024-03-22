@@ -85,12 +85,16 @@ const LoginScreen: React.FC<Props> = ({}) => {
             />
             {touched.password && errors.password ? <Text style={styles.error}>{errors.password}</Text> : null}
 
-            <TouchableOpacity style={globalStyles.button}>
-              <Button
+            <TouchableOpacity
+              activeOpacity={1}
+              style={styles.button}
+            >
+              <Text
                 onPress={() => handleSubmit()}
-                title="Log In"
-                color={Colors.text}
-              />
+                style={globalStyles.button}
+              >
+                Log In
+              </Text>
             </TouchableOpacity>
           </View>
         )}
@@ -105,6 +109,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     padding: 30,
     backgroundColor: Colors.primary,
+  },
+  button: {
+    backgroundColor: 'transparent',
   },
   image: {
     marginLeft: 'auto',
