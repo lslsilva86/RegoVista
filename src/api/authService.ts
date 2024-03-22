@@ -1,8 +1,6 @@
-import { API_KEY } from '@env';
-import axios, { AxiosError } from 'axios';
+import { API_KEY, API_BASE_URL } from '@env';
+import axios from 'axios';
 import { UserCredentials, RequestToken } from '../types/AuthTypes';
-
-const API_BASE_URL = 'https://api.themoviedb.org/3';
 
 const axiosInstance = axios.create({
   baseURL: API_BASE_URL,

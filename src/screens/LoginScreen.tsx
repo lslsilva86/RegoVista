@@ -71,6 +71,7 @@ const LoginScreen: React.FC<Props> = ({}) => {
               onChangeText={handleChange('username')}
               onBlur={handleBlur('username')}
               value={values.username}
+              autoCapitalize="none"
             />
             {touched.username && errors.username ? <Text style={styles.error}>{errors.username}</Text> : null}
             <TextInput
@@ -81,6 +82,7 @@ const LoginScreen: React.FC<Props> = ({}) => {
               onChangeText={handleChange('password')}
               onBlur={handleBlur('password')}
               value={values.password}
+              autoCapitalize="none"
             />
             {touched.password && errors.password ? <Text style={styles.error}>{errors.password}</Text> : null}
 

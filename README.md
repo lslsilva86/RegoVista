@@ -1,5 +1,7 @@
 # RegoVista
 
+![](./assets/logo.png 'Company Logo')
+
 RegoVista is an innovative app for movie lovers, enhancing film discovery and engagement. It features a user-friendly interface, focused on movie exploration, providing detailed insights, and personalized watchlists for a unique viewing experience.
 
 ## Key Features of RegoVista
@@ -64,3 +66,5 @@ To set up and run a React Native app with Expo from this GitHub repo, follow the
 - Press `a` to build and run on the connected device.
 
 For detailed setup and troubleshooting, refer to Expo's official documentation.
+
+(Cmd+Shift+V/Clt+Shift+V - To view .md file VS Code)
