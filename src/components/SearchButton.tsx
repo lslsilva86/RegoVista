@@ -1,16 +1,28 @@
 import React from 'react';
-import { Button } from 'react-native';
+import { Pressable, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { AntDesign } from '@expo/vector-icons';
+import { Colors } from '../utils/Colors';
 
 const SearchButton = () => {
   const navigation = useNavigation();
 
   return (
-    <Button
-      title="Search"
-      onPress={() => navigation.navigate('Search')}
-    />
+    <Pressable onPress={() => navigation.navigate('Search')}>
+      <AntDesign
+        name="search1"
+        size={24}
+        color={Colors.text}
+      />
+    </Pressable>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    paddingTop: 20,
+  },
+});
 
 export default SearchButton;

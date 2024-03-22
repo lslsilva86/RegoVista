@@ -1,14 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, Switch, FlatList } from 'react-native';
+
 import Header from '../components/Header';
 import { getTrendingMoviesToday, getTrendingMoviesThisWeek } from '../api/movieService';
 import MovieCard from '../components/MovieCard';
+import { Colors } from '../utils/Colors';
+import globalStyles from '../utils/Styles';
 
 const HomeScreen = () => {
-  const [moviesToday, setMoviesToday] = useState([]); // State variable to hold movies
-  const [moviesThisWeek, setMoviesThisWeek] = useState([]); // State variable to hold movies
-  const [isLoading, setIsLoading] = useState(true); // State for loading indicator
-  const [toggleValue, setToggleValue] = useState(true); // State for toggle button
+  const [moviesToday, setMoviesToday] = useState([]);
+  const [moviesThisWeek, setMoviesThisWeek] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [toggleValue, setToggleValue] = useState(true);
 
   const fetchMovies = async () => {
     try {
@@ -39,15 +42,15 @@ const HomeScreen = () => {
   }
 
   return (
-    <View>
+    <View style={globalStyles.mainContainer}>
       <Header />
-      <View style={styles.switchContainer}>
+      <View style={[styles.switchContainer, { marginHorizontal: 10 }]}>
         <Text style={styles.trending}>Trending </Text>
         <Text style={[styles.switchText, !toggleValue && styles.textActive]}>Today </Text>
         <Switch
           value={toggleValue}
           onValueChange={setToggleValue}
-          trackColor={{ false: '#ccc', true: '#007bff' }}
+          trackColor={{ false: Colors.text, true: Colors.primary }}
         />
         <Text style={[styles.switchText, toggleValue && styles.textActive]}> This Week</Text>
       </View>
@@ -57,16 +60,12 @@ const HomeScreen = () => {
         keyExtractor={(item) => item.id.toString()}
         renderItem={({ item }) => <MovieCard movie={item} />}
       />
-      <Text style={styles.noMovies}>No movies found yet!</Text>
+      {moviesToday.length === 0 ? <Text style={globalStyles.noResultsMsg}>No movies found yet!</Text> : <></>}
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 20,
-  },
   trending: {
     fontSize: 20,
     fontWeight: 'bold',

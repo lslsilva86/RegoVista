@@ -1,19 +1,16 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { View, StyleSheet, Image } from 'react-native';
 import SearchButton from './SearchButton';
+import { Colors } from '../utils/Colors';
 
 const Header = () => {
-  const onSearchPress = () => {};
   return (
     <View style={styles.container}>
-      <Text style={styles.logo}>Logo</Text>
-      <TouchableOpacity
-        onPress={onSearchPress}
-        style={styles.searchButton}
-      >
-        <SearchButton />
-      </TouchableOpacity>
+      <Image
+        style={styles.logo}
+        source={require('../../assets/logo-s2x.png')}
+      />
+      <SearchButton />
     </View>
   );
 };
@@ -24,11 +21,11 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     padding: 10,
-    backgroundColor: '#eee',
+    backgroundColor: Colors.primary,
   },
   logo: {
-    fontWeight: 'bold',
-    fontSize: 20,
+    width: 104,
+    height: 34,
   },
   searchButton: {
     padding: 10,

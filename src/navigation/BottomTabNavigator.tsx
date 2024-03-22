@@ -1,8 +1,10 @@
 import React from 'react';
 import { MaterialIcons } from '@expo/vector-icons';
+import { StyleSheet } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import HomeScreen from '../screens/HomeScreen';
 import SettingsScreen from '../screens/SettingsScreen';
+import { Colors } from '../utils/Colors';
 
 const Tab = createBottomTabNavigator();
 
@@ -11,7 +13,9 @@ const BottomTabNavigator = () => {
     <Tab.Navigator
       initialRouteName="Movies"
       screenOptions={{
-        tabBarActiveTintColor: '#e91e63',
+        tabBarActiveTintColor: Colors.secondary,
+        tabBarInactiveTintColor: Colors.text,
+        tabBarStyle: { backgroundColor: Colors.primary },
       }}
     >
       <Tab.Screen
@@ -56,5 +60,38 @@ const BottomTabNavigator = () => {
     </Tab.Navigator>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    backgroundColor: Colors.background,
+  },
+  trending: {
+    fontSize: 20,
+    fontWeight: 'bold',
+  },
+  switchContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 10,
+    marginTop: 20,
+    marginBottom: 20,
+  },
+  switchText: {
+    opacity: 0.2,
+    fontSize: 20,
+    fontWeight: '600',
+  },
+  textActive: {
+    opacity: 1,
+  },
+  flatList: {
+    marginBottom: 150,
+  },
+  noMovies: {
+    textAlign: 'center',
+    fontSize: 20,
+    fontWeight: 'bold',
+  },
+});
 
 export default BottomTabNavigator;
