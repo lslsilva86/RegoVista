@@ -42,10 +42,9 @@ const LoginScreen: React.FC<Props> = ({}) => {
 
             if (isValidated) {
               const sessionId = await createSession(token);
-              setSessionId(sessionId); // Update the session ID in the context
-              login(); // Mark user as logged in
+              setSessionId(sessionId);
+              login();
               console.log('Logged in! Session ID:', sessionId);
-              // Navigate to the next screen or perform additional login success actions here
             } else {
               console.log('Login failed during token validation.');
             }

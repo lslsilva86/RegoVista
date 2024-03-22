@@ -1,6 +1,7 @@
 import { API_KEY, API_BASE_URL } from '@env';
 import axios from 'axios';
 import { UserCredentials, RequestToken } from '../types/AuthTypes';
+import { displayError } from '../utils/CommonFunctions';
 
 const axiosInstance = axios.create({
   baseURL: API_BASE_URL,
@@ -15,13 +16,7 @@ export const requestToken = async () => {
     const response = await axiosInstance.get('/authentication/token/new');
     return response.data.request_token;
   } catch (error) {
-    if (axios.isAxiosError(error)) {
-      console.error('Failed request token:', error.response?.data.message || error.message);
-    } else if (error instanceof Error) {
-      console.error('Failed request token:', error.message);
-    } else {
-      console.error('Failed request token:', 'An unknown error occurred');
-    }
+    displayError(error, 'Failed to fetch request token:');
   }
 };
 
@@ -35,13 +30,7 @@ export const validateToken = async (credentials: UserCredentials, requestToken: 
     });
     return response.data.success;
   } catch (error) {
-    if (axios.isAxiosError(error)) {
-      console.error('Failed to validate token:', error.response?.data.message || error.message);
-    } else if (error instanceof Error) {
-      console.error('Failed to validate token:', error.message);
-    } else {
-      console.error('Failed to validate token:', 'An unknown error occurred');
-    }
+    displayError(error, 'Failed to validate request token:');
   }
 };
 
@@ -53,12 +42,6 @@ export const createSession = async (requestToken: RequestToken) => {
     });
     return response.data.session_id;
   } catch (error) {
-    if (axios.isAxiosError(error)) {
-      console.error('Failed to create session:', error.response?.data.message || error.message);
-    } else if (error instanceof Error) {
-      console.error('Failed to create session:', error.message);
-    } else {
-      console.error('Failed to create session:', 'An unknown error occurred');
-    }
+    displayError(error, 'Failed to create session:');
   }
 };

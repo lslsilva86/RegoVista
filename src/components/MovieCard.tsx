@@ -20,14 +20,23 @@ const MovieCard: React.FC<Movie> = ({ movie }) => {
 
   const getYear = (dateString: string) => {
     const date = new Date(dateString);
+    if (isNaN(date.getTime())) {
+      return null;
+    }
     return date.getFullYear();
   };
+
+  // if movie.poster_path is null assigning a placeholder image
+  const imagePath = movie.poster_path
+    ? { uri: `${IMAGE_BASE_URL}/${movie.poster_path}` }
+    : require('../../assets/movie-placeholder2x.png');
+
   return (
     <Pressable onPress={() => navigation.navigate('Movie Details')}>
-      <View style={styles.card}>
+      <View style={[styles.card, { marginVertical: 10, marginHorizontal: 20 }]}>
         <Image
           style={styles.image}
-          source={{ uri: `${IMAGE_BASE_URL}/${movie?.poster_path}` }}
+          source={imagePath}
         />
         <View style={styles.info}>
           <Text style={styles.title}>{movie.title}</Text>
@@ -36,7 +45,7 @@ const MovieCard: React.FC<Movie> = ({ movie }) => {
             <FontAwesome
               name="heart"
               size={24}
-              color={Colors.primary}
+              color={Colors.accent}
             />
             <Text style={styles.rate}>{Math.round(movie.vote_average * 10)}%</Text>
           </View>
@@ -51,8 +60,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     padding: 10,
-    borderBottomWidth: 1,
-    borderBottomColor: '#cccccc',
+    backgroundColor: 'white',
   },
   image: {
     width: 100,

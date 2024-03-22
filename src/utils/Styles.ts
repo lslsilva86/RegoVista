@@ -22,6 +22,23 @@ const globalStyles = StyleSheet.create({
     borderRadius: 5,
     color: Colors.text,
   },
+  searchInput: {
+    margin: 20,
+    padding: 10,
+    fontSize: 18,
+    borderWidth: 1,
+    borderColor: Colors.dark,
+    borderRadius: 5,
+    color: Colors.dark,
+  },
+  noResultsMsg: {
+    textAlign: 'center',
+    fontSize: 20,
+    fontWeight: 'bold',
+  },
+  mainContainer: {
+    backgroundColor: Colors.background,
+  },
 });
 
 export default globalStyles;
