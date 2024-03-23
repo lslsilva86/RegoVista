@@ -27,11 +27,11 @@ const SettingsScreen = () => {
   return (
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
       <Text style={styles.title}>Profile Infomation</Text>
-      <Text style={styles.text}>{userData?.name}</Text>
       <Image
         source={{ uri: `https://www.gravatar.com/avatar/${userData?.avatar.hash}?s=200&d=identicon` }}
         style={styles.avatar}
       />
+      <Text style={styles.text}>{userData?.name}</Text>
       <Text
         style={styles.logoutButton}
         onPress={() => logout()}
@@ -48,6 +48,7 @@ const styles = StyleSheet.create({
   avatar: {
     width: 100,
     height: 100,
+    marginBottom: 20,
   },
   title: {
     marginVertical: 30,
