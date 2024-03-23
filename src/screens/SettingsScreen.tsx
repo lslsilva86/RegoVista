@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { Text, View, Button, Image, StyleSheet } from 'react-native';
+import { Text, View, Image, StyleSheet } from 'react-native';
 import { useAuth } from '../contexts/AuthContext';
 import { getAccountId } from '../api/authService';
 import { displayError } from '../utils/CommonFunctions';
 import { Account } from '../types/AccountTypes';
-import globalStyles from '../utils/Styles';
 import { Colors } from '../utils/Colors';
 
 const SettingsScreen = () => {

@@ -108,6 +108,8 @@ const MovieDetailScreen = ({ route }) => {
   );
 };
 
+export default MovieDetailScreen;
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -181,5 +183,3 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
 });
-
-export default MovieDetailScreen;

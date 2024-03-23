@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, Switch, FlatList } from 'react-native';
-
 import Header from '../components/Header';
 import MovieCard from '../components/MovieCard';
 import { getTrendingMoviesToday, getTrendingMoviesThisWeek } from '../api/movieService';
@@ -113,6 +112,8 @@ const HomeScreen = () => {
   );
 };
 
+export default HomeScreen;
+
 const styles = StyleSheet.create({
   trending: {
     fontSize: 20,
@@ -140,5 +141,3 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
 });
-
-export default HomeScreen;

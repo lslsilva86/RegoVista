@@ -1,6 +1,6 @@
 import { IMAGE_BASE_URL } from '@env';
 import React from 'react';
-import { Pressable, View, Text, StyleSheet, Image, ImageSourcePropType } from 'react-native';
+import { Pressable, View, Text, StyleSheet, Image } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { FontAwesome } from '@expo/vector-icons';
 import { Colors } from '../utils/Colors';
@@ -42,6 +42,8 @@ const MovieCard: React.FC<MovieCardProps> = ({ movie }) => {
   );
 };
 
+export default MovieCard;
+
 const styles = StyleSheet.create({
   card: {
     flex: 1,
@@ -71,5 +73,3 @@ const styles = StyleSheet.create({
     marginLeft: 5,
   },
 });
-
-export default MovieCard;
