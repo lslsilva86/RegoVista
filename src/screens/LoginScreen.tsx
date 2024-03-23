@@ -1,11 +1,10 @@
 import React from 'react';
-import { View, TextInput, Button, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
+import { View, TextInput, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
-
 import { LoginScreenNavigationProp } from '../types/NavigationTypes';
 import { UserCredentials } from '../types/AuthTypes';
-import { requestToken, validateToken, createSession, getAccountId } from '../api/authService';
+import { requestToken, validateToken, createSession } from '../api/authService';
 import { useAuth } from '../contexts/AuthContext';
 import { Colors } from '../utils/Colors';
 import globalStyles from '../utils/Styles';
@@ -93,6 +92,8 @@ const LoginScreen: React.FC<Props> = ({}) => {
   );
 };
 
+export default LoginScreen;
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -115,5 +116,3 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
 });
-
-export default LoginScreen;

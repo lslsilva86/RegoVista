@@ -19,6 +19,9 @@ export const getYear = (dateString: string) => {
 };
 
 export const getHours = (minutes: number) => {
+  if (minutes === 0) {
+    return 'Runtime unavailable';
+  }
   const hours = Math.floor(minutes / 60);
   const remainingMinutes = minutes % 60;
   return `${hours}h ${remainingMinutes}m`;

@@ -7,12 +7,12 @@ import BottomTabNavigator from './src/navigation/BottomTabNavigator';
 import { AuthProvider, useAuth } from './src/contexts/AuthContext';
 import SearchScreen from './src/screens/SearchScreen';
 import MovieDetailScreen from './src/screens/MovieDetailScreen';
+import { WatchListProvider } from './src/contexts/WatchListContext';
 
 const Stack = createNativeStackNavigator();
 
 function RootNavigator() {
   const { isLoggedIn } = useAuth();
-  console.log(isLoggedIn);
 
   return (
     <NavigationContainer>
@@ -47,7 +47,9 @@ function RootNavigator() {
 export default function App() {
   return (
     <AuthProvider>
-      <RootNavigator />
+      <WatchListProvider>
+        <RootNavigator />
+      </WatchListProvider>
     </AuthProvider>
   );
 }

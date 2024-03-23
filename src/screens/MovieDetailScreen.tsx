@@ -33,6 +33,11 @@ const MovieDetailScreen = ({ route }) => {
 
   if (!movie) return null;
 
+  // if movie.poster_path is null assigning a placeholder image
+  const imagePath = movie.poster_path
+    ? { uri: `${IMAGE_BASE_URL}${movie.poster_path}` }
+    : require('../../assets/movie-placeholder2x.png');
+
   return (
     <ScrollView style={styles.container}>
       {isLoading ? (
@@ -45,11 +50,7 @@ const MovieDetailScreen = ({ route }) => {
           <View style={styles.imageWrapper}>
             <Image
               style={styles.image}
-              source={{
-                uri: movie.poster_path
-                  ? `${IMAGE_BASE_URL}/${movie.poster_path}`
-                  : '../../assets/movie-placeholder2x.png',
-              }}
+              source={imagePath}
             />
             <View style={styles.imageRight}>
               {movie.release_date && <Text style={styles.date}>{getYear(movie.release_date)}</Text>}
@@ -65,8 +66,8 @@ const MovieDetailScreen = ({ route }) => {
                     </Text>
                   ))}
               </View>
-              {movie.runtime && <Text>{getHours(movie.runtime)}</Text>}
-              {movie.vote_average && (
+              <Text>{movie.runtime > 0 && getHours(movie.runtime)}</Text>
+              {movie.vote_average > 0 && (
                 <View style={styles.ratingContainer}>
                   <FontAwesome
                     name="heart"
@@ -97,15 +98,17 @@ const MovieDetailScreen = ({ route }) => {
           {movie.overview && <Text style={styles.text}>{movie.overview}</Text>}
           <View style={styles.buttons}>
             <View>{movie.homepage && <MoreDetails link={movie.homepage} />}</View>
-            <AddWatchlist />
+            <AddWatchlist movieId={movieId} />
           </View>
-          <Ratings movieId={movieId} />
-          <ReviewsList movieId={movieId} />
+          {movie.vote_average > 0 && <Ratings movieId={movieId} />}
+          {movie.vote_average > 0 && <ReviewsList movieId={movieId} />}
         </>
       )}
     </ScrollView>
   );
 };
+
+export default MovieDetailScreen;
 
 const styles = StyleSheet.create({
   container: {
@@ -180,5 +183,3 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
 });
-
-export default MovieDetailScreen;

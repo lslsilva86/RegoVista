@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { API_KEY, API_READ_ACCESS_TOKEN, API_BASE_URL } from '@env';
 import { displayError } from '../utils/CommonFunctions';
-import { Movie, Reviews } from '../types/MovieTypes';
+import { Movie } from '../types/MovieTypes';
 
 /**
  * Axios instance configured with base API URL and default parameters including the API key.
