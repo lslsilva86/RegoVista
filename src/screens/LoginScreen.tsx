@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, TextInput, Button, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
+import { View, TextInput, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 
@@ -10,7 +10,6 @@ import { useAuth } from '../contexts/AuthContext';
 import { Colors } from '../utils/Colors';
 import globalStyles from '../utils/Styles';
 import { displayError } from '../utils/CommonFunctions';
-import { useWatchList } from '../contexts/WatchListContext';
 
 type Props = {
   navigation: LoginScreenNavigationProp;

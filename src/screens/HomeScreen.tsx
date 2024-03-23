@@ -2,29 +2,23 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, Switch, FlatList } from 'react-native';
 
 import Header from '../components/Header';
-import { getTrendingMoviesToday, getTrendingMoviesThisWeek } from '../api/movieService';
 import MovieCard from '../components/MovieCard';
+import { getTrendingMoviesToday, getTrendingMoviesThisWeek } from '../api/movieService';
 import { Colors } from '../utils/Colors';
 import globalStyles from '../utils/Styles';
 import { useAuth } from '../contexts/AuthContext';
 import { getAccountId } from '../api/authService';
 import { displayError } from '../utils/CommonFunctions';
-import { Movie } from '../types/MovieTypes';
-import { useWatchList } from '../contexts/WatchListContext';
-import { getWatchlist } from '../api/movieWatchlistService';
-
-interface Item {
-  id: number;
-  movie: Movie;
-}
+import LoadMoreButton from '../components/LoadMoreButton';
 
 const HomeScreen = () => {
   const [moviesToday, setMoviesToday] = useState([]);
-  const [moviesThisWeek, setMoviesThisWeek] = useState([]);
+  const [moviesThisWeek, setMoviesThisWeek] = useState();
   const [isLoading, setIsLoading] = useState(true);
   const [toggleValue, setToggleValue] = useState(true);
-  const { setAccountId, sessionId, accountId } = useAuth();
-  const { setWatchlist } = useWatchList();
+  const [currentMoviePage, setCurrentMoviePage] = useState(1);
+  const [totalMoviePage, setTotalMoviePage] = useState(0);
+  const { setAccountId, sessionId } = useAuth();
 
   const fetchAndSetAccountId = async (sessionId: string) => {
     try {
@@ -34,12 +28,27 @@ const HomeScreen = () => {
       displayError(error, 'Failed to fetch account ID:');
     }
   };
-  const fetchAndSetWatchList = async (accountId: string) => {
+
+  const onLoadMorePress = async () => {
+    setIsLoading(true);
     try {
-      const watchlist = await getWatchlist(accountId);
-      setWatchlist(watchlist);
+      const nextPage = currentMoviePage + 1;
+      const response = await getTrendingMoviesThisWeek(nextPage);
+
+      if (response && response.results.length > 0) {
+        setMoviesThisWeek((preMovies) => ({
+          ...response,
+          results: preMovies ? [...preMovies.results, ...response.results] : response.results,
+        }));
+        setCurrentMoviePage(response.page);
+        setTotalMoviePage(response['total_pages']);
+      } else {
+        console.log('No more movies to fetch');
+      }
     } catch (error) {
-      displayError(error, 'Failed to fetch account ID:');
+      displayError(error, 'Error fetching more movies:');
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -49,7 +58,7 @@ const HomeScreen = () => {
         const response = await getTrendingMoviesToday();
         setMoviesToday(response.results);
       } else {
-        const response = await getTrendingMoviesThisWeek();
+        const response = await getTrendingMoviesThisWeek(currentMoviePage);
         setMoviesThisWeek(response.results);
       }
     } catch (error) {
@@ -62,12 +71,16 @@ const HomeScreen = () => {
   useEffect(() => {
     fetchMovies();
     fetchAndSetAccountId(sessionId);
-    fetchAndSetWatchList(accountId);
-  }, []);
+  }, [sessionId]);
 
   useEffect(() => {
     fetchMovies();
   }, [toggleValue]);
+
+  useEffect(() => {
+    fetchMovies();
+    fetchAndSetAccountId(sessionId);
+  }, [sessionId]);
 
   if (isLoading) {
     return <Text style={styles.noMovies}>Loading movies...</Text>;
@@ -89,10 +102,13 @@ const HomeScreen = () => {
       <FlatList
         style={styles.flatList}
         data={toggleValue ? moviesToday : moviesThisWeek}
-        keyExtractor={(item: Item) => item.id.toString()}
+        keyExtractor={(item) => item.id.toString()}
         renderItem={({ item }) => <MovieCard movie={item} />}
+        ListFooterComponent={() => {
+          return totalMoviePage !== currentMoviePage ? <LoadMoreButton onLoadMorePress={onLoadMorePress} /> : <></>;
+        }}
       />
-      {moviesToday.length === 0 ? <Text style={globalStyles.noResultsMsg}>No movies found yet!</Text> : <></>}
+      {moviesToday.length === 0 ? <Text style={globalStyles.noResultsMsg}>No movies found yet!</Text> : null}
     </View>
   );
 };
