@@ -34,11 +34,15 @@ export const getTrendingMoviesToday = async () => {
 
 /**
  * Fetches trending movies for the current week.
+ * @param page The page number to find movies.
  * @returns A promise that resolves to the data of trending movies for the week.
  */
-export const getTrendingMoviesThisWeek = async () => {
+export const getTrendingMoviesThisWeek = async (page: number) => {
+  const options = {
+    params: { page },
+  };
   try {
-    const response = await axiosInstanceWithAccessToken.get('/trending/movie/week');
+    const response = await axiosInstanceWithAccessToken.get('/trending/movie/week', options);
     return response.data;
   } catch (error) {
     displayError(error, 'Failed to fetch trending movies for week:');
