@@ -1,18 +1,19 @@
 import { IMAGE_BASE_URL } from '@env';
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, Image, Linking, Button, ActivityIndicator, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, Image, ActivityIndicator, ScrollView } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
-import { getDetailsByMovieId, getReviewsByMovieId } from '../api/movieService';
+import { getDetailsByMovieId } from '../api/movieService';
 import { Colors } from '../utils/Colors';
 import { displayError, getHours, getYear } from '../utils/CommonFunctions';
-import globalStyles from '../utils/Styles';
-import { Movie, Reviews } from '../types/MovieTypes';
+import { Movie } from '../types/MovieTypes';
+import ReviewsList from '../components/Reviews';
+import MoreDetails from '../components/MoreDetails';
+import AddWatchlist from '../components/AddWatchlist';
+import Ratings from '../components/Ratings';
 
 const MovieDetailScreen = ({ route }) => {
   const { movieId } = route.params;
   const [movie, setMovie] = useState<Movie | null>(null);
-  const [reviews, setReviews] = useState<Reviews | null>(null);
-  const [currentReviewPage, setCurrentReviewPage] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
 
   const fetchMovie = async (id: string) => {
@@ -26,63 +27,8 @@ const MovieDetailScreen = ({ route }) => {
     }
   };
 
-  const fetchReviews = async (id: string) => {
-    setIsLoading(true);
-    try {
-      const response = await getReviewsByMovieId(id);
-      if (response) {
-        setReviews(response);
-        setCurrentReviewPage(response.page);
-      } else {
-        console.error('No reviews fetched');
-      }
-    } catch (error) {
-      displayError(error, 'Error fetching reviews:');
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const loadMore = async () => {
-    if (!reviews) return;
-    setIsLoading(true);
-    try {
-      const nextPage = currentReviewPage + 1;
-      const response = await getReviewsByMovieId(movieId, nextPage);
-      if (response && response.results.length > 0) {
-        setReviews((prevReviews) => ({
-          ...response,
-          results: prevReviews ? [...prevReviews.results, ...response.results] : response.results,
-        }));
-        setCurrentReviewPage(response.page);
-      } else {
-        console.log('No more reviews to fetch');
-      }
-    } catch (error) {
-      console.error('Error fetching more reviews:', error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const onMoreDetailsPress = async () => {
-    const url = movie?.homepage || 'https://regovista.com';
-    const canOpen = await Linking.canOpenURL(url);
-
-    if (canOpen) {
-      Linking.openURL(url);
-    } else {
-      console.error('Cannot open URL:', url);
-    }
-  };
-
-  const onLoadMorePress = () => {
-    loadMore();
-  };
-
   useEffect(() => {
     fetchMovie(movieId);
-    fetchReviews(movieId);
   }, []);
 
   if (!movie) return null;
@@ -106,7 +52,7 @@ const MovieDetailScreen = ({ route }) => {
               }}
             />
             <View style={styles.imageRight}>
-              <Text style={styles.date}>{getYear(movie.release_date)}</Text>
+              {movie.release_date && <Text style={styles.date}>{getYear(movie.release_date)}</Text>}
               <View style={styles.langs}>
                 {movie.spoken_languages &&
                   movie.spoken_languages.map((item, index) => (
@@ -119,7 +65,7 @@ const MovieDetailScreen = ({ route }) => {
                     </Text>
                   ))}
               </View>
-              <Text>{getHours(movie.runtime)}</Text>
+              {movie.runtime && <Text>{getHours(movie.runtime)}</Text>}
               {movie.vote_average && (
                 <View style={styles.ratingContainer}>
                   <FontAwesome
@@ -132,9 +78,11 @@ const MovieDetailScreen = ({ route }) => {
               )}
             </View>
           </View>
-          <Text style={styles.title}>
-            {movie.title} : {movie.tagline}
-          </Text>
+          {movie.title && (
+            <Text style={styles.title}>
+              {movie.title} {movie.tagline && `: ${movie.tagline}`}
+            </Text>
+          )}
           <View style={styles.genres}>
             {movie.genres &&
               movie.genres.map((item, index) => (
@@ -146,34 +94,13 @@ const MovieDetailScreen = ({ route }) => {
                 </Text>
               ))}
           </View>
-          <Text style={styles.text}>{movie.overview}</Text>
-          {movie.homepage && (
-            <Button
-              title="More Details"
-              onPress={onMoreDetailsPress}
-              color={Colors.accent}
-            />
-          )}
-          {reviews && (
-            <View style={styles.reviews}>
-              <Text style={styles.title}>Reviews</Text>
-              {reviews.results.map((item, index) => (
-                <View
-                  key={index}
-                  style={styles.review}
-                >
-                  <Text>{item.content}</Text>
-                  <Text style={styles.author}>By {item.author}</Text>
-                </View>
-              ))}
-              {reviews?.total_pages && currentReviewPage < reviews?.total_pages && (
-                <Button
-                  title="Load More"
-                  onPress={onLoadMorePress}
-                />
-              )}
-            </View>
-          )}
+          {movie.overview && <Text style={styles.text}>{movie.overview}</Text>}
+          <View style={styles.buttons}>
+            <View>{movie.homepage && <MoreDetails link={movie.homepage} />}</View>
+            <AddWatchlist />
+          </View>
+          <Ratings movieId={movieId} />
+          <ReviewsList movieId={movieId} />
         </>
       )}
     </ScrollView>
@@ -189,6 +116,15 @@ const styles = StyleSheet.create({
   imageWrapper: {
     flexDirection: 'row',
   },
+  image: {
+    flex: 2,
+    width: 200,
+    height: 300,
+    marginRight: 10,
+  },
+  imageRight: {
+    flex: 1,
+  },
   genres: {
     flexDirection: 'row',
     flexWrap: 'wrap',
@@ -201,16 +137,6 @@ const styles = StyleSheet.create({
     marginRight: 5,
     marginBottom: 5,
     color: Colors.text,
-  },
-  reviews: {
-    marginBottom: 50,
-  },
-  review: {
-    marginTop: 10,
-    paddingBottom: 10,
-    borderBottomColor: Colors.dark,
-    borderBottomWidth: 1,
-    width: '100%',
   },
   langs: {
     flexDirection: 'row',
@@ -226,15 +152,6 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     fontWeight: 'bold',
   },
-  image: {
-    flex: 2,
-    width: 200,
-    height: 300,
-    marginRight: 10,
-  },
-  imageRight: {
-    flex: 1,
-  },
   info: {
     flex: 1,
     justifyContent: 'center',
@@ -242,11 +159,6 @@ const styles = StyleSheet.create({
   title: {
     marginVertical: 15,
     fontSize: 18,
-    fontWeight: 'bold',
-  },
-  author: {
-    marginTop: 10,
-    fontSize: 14,
     fontWeight: 'bold',
   },
   text: {
@@ -260,6 +172,12 @@ const styles = StyleSheet.create({
   },
   rate: {
     marginLeft: 5,
+  },
+  buttons: {
+    marginBottom: 15,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
   },
 });
 

@@ -2,14 +2,14 @@ import React from 'react';
 import { View, TextInput, Button, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
-import axios from 'axios';
 
 import { LoginScreenNavigationProp } from '../types/NavigationTypes';
 import { UserCredentials } from '../types/AuthTypes';
-import { requestToken, validateToken, createSession } from '../api/authService';
+import { requestToken, validateToken, createSession, getAccountId } from '../api/authService';
 import { useAuth } from '../contexts/AuthContext';
 import { Colors } from '../utils/Colors';
 import globalStyles from '../utils/Styles';
+import { displayError } from '../utils/CommonFunctions';
 
 type Props = {
   navigation: LoginScreenNavigationProp;
@@ -39,23 +39,13 @@ const LoginScreen: React.FC<Props> = ({}) => {
             };
             const token = await requestToken();
             const isValidated = await validateToken(credentials, token);
-
             if (isValidated) {
-              const sessionId = await createSession(token);
-              setSessionId(sessionId);
+              const newSessionId = await createSession(token);
+              setSessionId(newSessionId);
               login();
-              console.log('Logged in! Session ID:', sessionId);
-            } else {
-              console.log('Login failed during token validation.');
             }
           } catch (error) {
-            if (axios.isAxiosError(error)) {
-              console.error('Failed login:', error.response?.data.message || error.message);
-            } else if (error instanceof Error) {
-              console.error('Failed login:', error.message);
-            } else {
-              console.error('Failed login:', 'An unknown error occurred');
-            }
+            displayError(error, 'Failed login:');
           } finally {
             setSubmitting(false);
           }
