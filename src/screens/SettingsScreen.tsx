@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { Text, View, Button, Image, StyleSheet } from 'react-native';
+import { Text, View, Image, StyleSheet } from 'react-native';
 import { useAuth } from '../contexts/AuthContext';
 import { getAccountId } from '../api/authService';
 import { displayError } from '../utils/CommonFunctions';
 import { Account } from '../types/AccountTypes';
-import globalStyles from '../utils/Styles';
 import { Colors } from '../utils/Colors';
 
 const SettingsScreen = () => {
@@ -27,11 +26,11 @@ const SettingsScreen = () => {
   return (
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
       <Text style={styles.title}>Profile Infomation</Text>
-      <Text style={styles.text}>{userData?.name}</Text>
       <Image
         source={{ uri: `https://www.gravatar.com/avatar/${userData?.avatar.hash}?s=200&d=identicon` }}
         style={styles.avatar}
       />
+      <Text style={styles.text}>{userData?.name}</Text>
       <Text
         style={styles.logoutButton}
         onPress={() => logout()}
@@ -48,6 +47,7 @@ const styles = StyleSheet.create({
   avatar: {
     width: 100,
     height: 100,
+    marginBottom: 20,
   },
   title: {
     marginVertical: 30,

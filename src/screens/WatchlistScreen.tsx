@@ -5,7 +5,6 @@ import MovieCard from '../components/MovieCard';
 import globalStyles from '../utils/Styles';
 import { useWatchList } from '../contexts/WatchListContext';
 import { Colors } from '../utils/Colors';
-import { number, string } from 'yup';
 
 const WatchlistScreen = () => {
   const { watchlist, fetchWatchlist } = useWatchList();
@@ -52,6 +51,8 @@ const WatchlistScreen = () => {
   );
 };
 
+export default WatchlistScreen;
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -67,5 +68,3 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
 });
-
-export default WatchlistScreen;

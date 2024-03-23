@@ -92,6 +92,8 @@ const ReviewsList: React.FC<Props> = ({ movieId }) => {
   );
 };
 
+export default ReviewsList;
+
 const styles = StyleSheet.create({
   reviews: {
     marginBottom: 50,
@@ -114,5 +116,3 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
 });
-
-export default ReviewsList;
