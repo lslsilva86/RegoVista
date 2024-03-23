@@ -97,7 +97,7 @@ const MovieDetailScreen = ({ route }) => {
           {movie.overview && <Text style={styles.text}>{movie.overview}</Text>}
           <View style={styles.buttons}>
             <View>{movie.homepage && <MoreDetails link={movie.homepage} />}</View>
-            <AddWatchlist />
+            <AddWatchlist movieId={movieId} />
           </View>
           <Ratings movieId={movieId} />
           <ReviewsList movieId={movieId} />

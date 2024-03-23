@@ -10,6 +10,8 @@ import { useAuth } from '../contexts/AuthContext';
 import { getAccountId } from '../api/authService';
 import { displayError } from '../utils/CommonFunctions';
 import { Movie } from '../types/MovieTypes';
+import { useWatchList } from '../contexts/WatchListContext';
+import { getWatchlist } from '../api/movieWatchlistService';
 
 interface Item {
   id: number;
@@ -22,11 +24,20 @@ const HomeScreen = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [toggleValue, setToggleValue] = useState(true);
   const { setAccountId, sessionId, accountId } = useAuth();
+  const { setWatchlist } = useWatchList();
 
   const fetchAndSetAccountId = async (sessionId: string) => {
     try {
       const accId = await getAccountId(sessionId);
       setAccountId(accId.id.toString());
+    } catch (error) {
+      displayError(error, 'Failed to fetch account ID:');
+    }
+  };
+  const fetchAndSetWatchList = async (accountId: string) => {
+    try {
+      const watchlist = await getWatchlist(accountId);
+      setWatchlist(watchlist);
     } catch (error) {
       displayError(error, 'Failed to fetch account ID:');
     }
@@ -51,6 +62,7 @@ const HomeScreen = () => {
   useEffect(() => {
     fetchMovies();
     fetchAndSetAccountId(sessionId);
+    fetchAndSetWatchList(accountId);
   }, []);
 
   useEffect(() => {
