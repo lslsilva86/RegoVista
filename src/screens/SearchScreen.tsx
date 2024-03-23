@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { View, TextInput, StyleSheet, FlatList, ActivityIndicator, Text } from 'react-native';
-import MovieCard from '../components/MovieCard'; // Adjust the import path as necessary
+import MovieCard from '../components/MovieCard';
 import globalStyles from '../utils/Styles';
 import { getMoviesByQuery } from '../api/movieService';
 import { Colors } from '../utils/Colors';

@@ -1,12 +1,22 @@
 import axios from 'axios';
-import { API_KEY, API_BASE_URL } from '@env';
+import { API_KEY, API_BASE_URL, API_READ_ACCESS_TOKEN } from '@env';
 import { displayError } from '../utils/CommonFunctions';
 import { Reviews } from '../types/MovieTypes';
 
-// Initialize Axios instance with base URL and default params
-const axiosInstance = axios.create({
+/**
+ * Axios instance configured with base API URL and default parameters including the API key.
+ */
+const axiosInstanceWithApiKey = axios.create({
   baseURL: API_BASE_URL,
   params: { api_key: API_KEY },
+});
+
+/**
+ * Axios instance configured with API read access token.
+ */
+const axiosInstanceWithAccessToken = axios.create({
+  baseURL: API_BASE_URL,
+  headers: { Authorization: `Bearer ${API_READ_ACCESS_TOKEN}` },
 });
 
 /**
@@ -15,7 +25,7 @@ const axiosInstance = axios.create({
  */
 export const getTrendingMoviesToday = async () => {
   try {
-    const response = await axiosInstance.get('/trending/movie/day');
+    const response = await axiosInstanceWithAccessToken.get('/trending/movie/day');
     return response.data;
   } catch (error) {
     displayError(error, 'Failed to fetch trending movies for day:');
@@ -28,7 +38,7 @@ export const getTrendingMoviesToday = async () => {
  */
 export const getTrendingMoviesThisWeek = async () => {
   try {
-    const response = await axiosInstance.get('/trending/movie/week');
+    const response = await axiosInstanceWithAccessToken.get('/trending/movie/week');
     return response.data;
   } catch (error) {
     displayError(error, 'Failed to fetch trending movies for week:');
@@ -45,7 +55,7 @@ export const getMoviesByQuery = async (query: string) => {
     params: { query, include_adult: 'false', page: '1' },
   };
   try {
-    const response = await axiosInstance.get('/search/movie', options);
+    const response = await axiosInstanceWithAccessToken.get('/search/movie', options);
     return response.data;
   } catch (error) {
     displayError(error, 'Failed to fetch searched movies');
@@ -59,7 +69,7 @@ export const getMoviesByQuery = async (query: string) => {
  */
 export const getDetailsByMovieId = async (id: string) => {
   try {
-    const response = await axiosInstance.get(`/movie/${id}`);
+    const response = await axiosInstanceWithAccessToken.get(`/movie/${id}`);
     return response.data;
   } catch (error) {
     displayError(error, 'Failed to fetch movie details');
@@ -74,7 +84,7 @@ export const getDetailsByMovieId = async (id: string) => {
  */
 export const getReviewsByMovieId = async (id: string, pageNo: number = 1): Promise<Reviews | undefined> => {
   try {
-    const response = await axiosInstance.get<Reviews>(`/movie/${id}/reviews`, {
+    const response = await axiosInstanceWithAccessToken.get<Reviews>(`/movie/${id}/reviews`, {
       params: { page: pageNo },
     });
     return response.data;

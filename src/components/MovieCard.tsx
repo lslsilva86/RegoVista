@@ -5,16 +5,12 @@ import { useNavigation } from '@react-navigation/native';
 import { FontAwesome } from '@expo/vector-icons';
 import { Colors } from '../utils/Colors';
 import { getYear } from '../utils/CommonFunctions';
+import { Movie } from '../types/MovieTypes';
 
-interface Movie {
-  poster_path: ImageSourcePropType;
-  title: string;
-  release_date: string;
-  vote_average: number;
-  id: number;
+interface MovieCardProps {
+  movie: Movie;
 }
-
-const MovieCard: React.FC<Movie> = ({ movie }) => {
+const MovieCard: React.FC<MovieCardProps> = ({ movie }) => {
   const navigation = useNavigation();
 
   // if movie.poster_path is null assigning a placeholder image

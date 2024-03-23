@@ -1,7 +1,9 @@
 export interface AuthContextType {
   isLoggedIn: boolean;
-  sessionId: String;
+  sessionId: string;
+  accountId: string;
   setSessionId: (sessionId: string) => void;
+  setAccountId: (accountId: string) => void;
   login: () => void;
   logout: () => void;
 }

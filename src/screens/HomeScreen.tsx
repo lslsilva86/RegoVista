@@ -6,12 +6,31 @@ import { getTrendingMoviesToday, getTrendingMoviesThisWeek } from '../api/movieS
 import MovieCard from '../components/MovieCard';
 import { Colors } from '../utils/Colors';
 import globalStyles from '../utils/Styles';
+import { useAuth } from '../contexts/AuthContext';
+import { getAccountId } from '../api/authService';
+import { displayError } from '../utils/CommonFunctions';
+import { Movie } from '../types/MovieTypes';
+
+interface Item {
+  id: number;
+  movie: Movie;
+}
 
 const HomeScreen = () => {
   const [moviesToday, setMoviesToday] = useState([]);
   const [moviesThisWeek, setMoviesThisWeek] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [toggleValue, setToggleValue] = useState(true);
+  const { setAccountId, sessionId, accountId } = useAuth();
+
+  const fetchAndSetAccountId = async (sessionId: string) => {
+    try {
+      const accId = await getAccountId(sessionId);
+      setAccountId(accId.id.toString());
+    } catch (error) {
+      displayError(error, 'Failed to fetch account ID:');
+    }
+  };
 
   const fetchMovies = async () => {
     try {
@@ -23,7 +42,7 @@ const HomeScreen = () => {
         setMoviesThisWeek(response.results);
       }
     } catch (error) {
-      console.error('Error fetching movies:', error);
+      displayError(error, 'Error fetching movies:');
     } finally {
       setIsLoading(false);
     }
@@ -31,6 +50,7 @@ const HomeScreen = () => {
 
   useEffect(() => {
     fetchMovies();
+    fetchAndSetAccountId(sessionId);
   }, []);
 
   useEffect(() => {
@@ -57,7 +77,7 @@ const HomeScreen = () => {
       <FlatList
         style={styles.flatList}
         data={toggleValue ? moviesToday : moviesThisWeek}
-        keyExtractor={(item) => item.id.toString()}
+        keyExtractor={(item: Item) => item.id.toString()}
         renderItem={({ item }) => <MovieCard movie={item} />}
       />
       {moviesToday.length === 0 ? <Text style={globalStyles.noResultsMsg}>No movies found yet!</Text> : <></>}

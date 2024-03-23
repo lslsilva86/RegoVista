@@ -23,6 +23,7 @@ export interface Language {
 }
 
 export interface Movie {
+  id: number;
   title: string;
   poster_path: string;
   tagline: string;
@@ -34,6 +35,7 @@ export interface Movie {
   spoken_languages: Language[];
   runtime: number;
   video: string;
+  rating: number;
 }
 export interface Review {
   author: string;
