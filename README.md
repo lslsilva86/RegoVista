@@ -27,7 +27,7 @@ To set up and run a React Native app with Expo from this GitHub repo, follow the
 2. Install Expo CLI if not already installed: `npm install -g expo-cli`.
 3. Navigate to the project directory: `cd [project-directory]`.
 4. Create a .env.local file from .env.sample file and add an API Key of themoviedb (TMDB).
-5. Install dependencies: `npm install`.
+5. Install dependencies: `npm install`. (node version used v20.11.0)
 6. Start the project: `expo start` or `npm start`.
 
 ## Running on Simulators

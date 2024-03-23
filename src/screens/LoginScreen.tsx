@@ -10,6 +10,7 @@ import { useAuth } from '../contexts/AuthContext';
 import { Colors } from '../utils/Colors';
 import globalStyles from '../utils/Styles';
 import { displayError } from '../utils/CommonFunctions';
+import { useWatchList } from '../contexts/WatchListContext';
 
 type Props = {
   navigation: LoginScreenNavigationProp;

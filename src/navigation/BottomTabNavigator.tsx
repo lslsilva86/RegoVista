@@ -5,6 +5,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import HomeScreen from '../screens/HomeScreen';
 import SettingsScreen from '../screens/SettingsScreen';
 import { Colors } from '../utils/Colors';
+import WatchlistScreen from '../screens/WatchlistScreen';
 
 const Tab = createBottomTabNavigator();
 
@@ -13,7 +14,7 @@ const BottomTabNavigator = () => {
     <Tab.Navigator
       initialRouteName="Movies"
       screenOptions={{
-        tabBarActiveTintColor: Colors.secondary,
+        tabBarActiveTintColor: Colors.medium,
         tabBarInactiveTintColor: Colors.text,
         tabBarStyle: { backgroundColor: Colors.primary },
       }}
@@ -32,17 +33,20 @@ const BottomTabNavigator = () => {
           ),
         }}
       />
-      {/* <Tab.Screen
-        name="Notifications"
-        component={Notifications}
+      <Tab.Screen
+        name="Watchlist"
+        component={WatchlistScreen}
         options={{
-          tabBarLabel: 'Updates',
+          tabBarLabel: 'Watchlist',
           tabBarIcon: ({ color, size }) => (
-            <MaterialIcons name="bell" color={color} size={size} />
+            <MaterialIcons
+              name="bookmarks"
+              color={color}
+              size={size}
+            />
           ),
-          tabBarBadge: 3,
         }}
-      /> */}
+      />
       <Tab.Screen
         name="Me"
         component={SettingsScreen}
@@ -50,7 +54,7 @@ const BottomTabNavigator = () => {
           tabBarLabel: 'Me',
           tabBarIcon: ({ color, size }) => (
             <MaterialIcons
-              name="settings"
+              name="person-2"
               color={color}
               size={size}
             />
@@ -60,38 +64,5 @@ const BottomTabNavigator = () => {
     </Tab.Navigator>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: Colors.background,
-  },
-  trending: {
-    fontSize: 20,
-    fontWeight: 'bold',
-  },
-  switchContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    padding: 10,
-    marginTop: 20,
-    marginBottom: 20,
-  },
-  switchText: {
-    opacity: 0.2,
-    fontSize: 20,
-    fontWeight: '600',
-  },
-  textActive: {
-    opacity: 1,
-  },
-  flatList: {
-    marginBottom: 150,
-  },
-  noMovies: {
-    textAlign: 'center',
-    fontSize: 20,
-    fontWeight: 'bold',
-  },
-});
 
 export default BottomTabNavigator;
