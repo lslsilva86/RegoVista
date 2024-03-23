@@ -74,7 +74,7 @@ export const createSession = async (requestToken: RequestToken): Promise<string>
  * Fetches the account details from TMDB API.
  * @returns {Promise<string>} A promise that resolves to the account details.
  */
-export const getAccountId = async (session_id: string) => {
+export const getAccount = async (session_id: string) => {
   try {
     const response = await axiosInstanceWithAccessToken.get(`${API_BASE_URL}/account`, {
       params: {

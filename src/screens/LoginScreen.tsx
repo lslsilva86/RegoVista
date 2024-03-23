@@ -5,7 +5,7 @@ import * as Yup from 'yup';
 
 import { LoginScreenNavigationProp } from '../types/NavigationTypes';
 import { UserCredentials } from '../types/AuthTypes';
-import { requestToken, validateToken, createSession, getAccountId } from '../api/authService';
+import { requestToken, validateToken, createSession, getAccount } from '../api/authService';
 import { useAuth } from '../contexts/AuthContext';
 import { Colors } from '../utils/Colors';
 import globalStyles from '../utils/Styles';

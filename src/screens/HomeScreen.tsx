@@ -7,7 +7,7 @@ import MovieCard from '../components/MovieCard';
 import { Colors } from '../utils/Colors';
 import globalStyles from '../utils/Styles';
 import { useAuth } from '../contexts/AuthContext';
-import { getAccountId } from '../api/authService';
+import { getAccount } from '../api/authService';
 import { displayError } from '../utils/CommonFunctions';
 import { Movie } from '../types/MovieTypes';
 
@@ -25,8 +25,8 @@ const HomeScreen = () => {
 
   const fetchAndSetAccountId = async (sessionId: string) => {
     try {
-      const accId = await getAccountId(sessionId);
-      setAccountId(accId.id.toString());
+      const account = await getAccount(sessionId);
+      setAccountId(account.id.toString());
     } catch (error) {
       displayError(error, 'Failed to fetch account ID:');
     }
